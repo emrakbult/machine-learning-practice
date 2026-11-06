@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 df = pd.DataFrame({
@@ -40,3 +41,65 @@ df = pd.DataFrame({
 df.loc["s2":"s4", ["name", "score"]] # s4 included
 
 df.iloc[1:4, 0:2] # 4 and 2 excluded
+
+df[df["score"] >= 80]
+
+filtered = df[
+    (df["department"] == "CS") &
+    (df["score"] > 80)
+]
+
+df.loc[
+    df["score"] >= 80,
+    ["name", "score"]
+]
+
+df.isna()
+df.isna().sum()
+
+clean_df = df.dropna()
+clean_df = df.dropna(subset=["score"])
+
+mean_age = df["age"].mean()
+df["age"] = df["age"].fillna(mean_age)
+
+median_age = df["age"].median()
+df["age"] = df["age"].fillna(median_age)
+
+train_df, test_df = train_test_split(
+    df,
+    test_size=0.2,
+    random_state=42
+)
+
+train_df = train_df.copy()
+test_df = test_df.copy()
+
+mean_age = train_df["age"].mean()
+
+train_df["age"] = train_df["age"].fillna(mean_age)
+test_df["age"] = test_df["age"].fillna(mean_age)
+
+a = pd.Series(
+    [10, 20],
+    index=["x", "y"]
+)
+
+b = pd.Series(
+    [100, 200],
+    index=["y", "x"]
+)
+
+print(a + b)
+
+X = df[["age", "score"]].to_numpy()
+
+X = np.array([
+    [1, 2],
+    [3, 4]
+])
+
+df = pd.DataFrame(
+    X,
+    columns=["feature1", "feature2"]
+)
